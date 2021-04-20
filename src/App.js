@@ -19,6 +19,7 @@ const App = () => {
         ? JSON.parse(localStorageCantactsArray)
         : contacts
     );
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
