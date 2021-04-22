@@ -7,6 +7,8 @@ import Filter from "./components/Filter";
 import ContactList from "./components/ContactList";
 
 import data from "./data/contacts.json";
+//
+import Counter from "./components/Counter/Counter";
 
 const App = () => {
   const [contacts, setContacts] = useState(data);
@@ -63,6 +65,7 @@ const App = () => {
         filteredContacts={filteredContacts}
         onDeleteContact={deleteUserHandler}
       />
+      <Counter />
     </div>
   );
 };
