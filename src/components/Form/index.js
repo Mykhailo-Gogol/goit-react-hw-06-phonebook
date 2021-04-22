@@ -1,7 +1,14 @@
+import shortid from "shortid";
 import { useState } from "react";
-import PropTypes from "prop-types";
 
-const Form = ({ onSubmit }) => {
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { onAddContact } from "../../redux/phonebook/actions";
+
+const Form = () => {
+  const contacts = useSelector((state) => state.phonebook.contacts);
+  const dispatch = useDispatch();
+
   const [contact, setContact] = useState({
     name: "",
     number: "",
@@ -18,7 +25,7 @@ const Form = ({ onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(contact);
+    formSubmitHandler(contact);
     reset();
   };
 
@@ -27,6 +34,14 @@ const Form = ({ onSubmit }) => {
       name: "",
       number: "",
     });
+  };
+
+  const formSubmitHandler = ({ name, number }) => {
+    if (contacts.some((contact) => contact.name === name)) {
+      alert(`${name} is already in contacts!`);
+    } else {
+      dispatch(onAddContact({ name, number, id: shortid.generate() }));
+    }
   };
 
   return (
@@ -64,10 +79,6 @@ const Form = ({ onSubmit }) => {
       </form>
     </>
   );
-};
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Form;

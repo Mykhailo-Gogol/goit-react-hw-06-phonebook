@@ -7,12 +7,10 @@ const phonebookState = { items: [...data], filter: "" };
 const contacts = (state = phonebookState.items, { type, payload }) => {
   switch (type) {
     case types.ADD_CONTACT:
-      return {
-        ...state,
-        payload,
-      };
+      return [...state, payload];
+
     case types.REMOVE_CONTACT:
-      return [...state].filter(({ id }) => id !== payload.id);
+      return state.filter(({ id }) => id !== payload);
 
     default:
       return state;
