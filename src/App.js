@@ -1,5 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import shortid from "shortid";
 
 import Form from "./components/Form";
@@ -8,11 +10,11 @@ import ContactList from "./components/ContactList";
 
 import data from "./data/contacts.json";
 //
-import Counter from "./components/Counter/Counter";
 
 const App = () => {
+  const filter = useSelector((state) => state.phonebook.filter);
+
   const [contacts, setContacts] = useState(data);
-  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const localStorageCantactsArray = localStorage.getItem("contacts");
@@ -37,10 +39,6 @@ const App = () => {
     }
   };
 
-  const filterHandler = (value) => {
-    setFilter(value);
-  };
-
   const deleteUserHandler = (contactId) => {
     setContacts(contacts.filter(({ id }) => id !== contactId));
   };
@@ -60,12 +58,11 @@ const App = () => {
       <h1>Phonebook</h1>
       <Form onSubmit={formSubmitHandler} />
       <h2>Contacts</h2>
-      <Filter onFilter={filterHandler} />
+      <Filter />
       <ContactList
         filteredContacts={filteredContacts}
         onDeleteContact={deleteUserHandler}
       />
-      <Counter />
     </div>
   );
 };

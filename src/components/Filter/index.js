@@ -1,18 +1,14 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { onChangeFilter } from "../../redux/phonebook/actions";
 
-const Filter = ({ onFilter }) => {
-  const [filter, setFilter] = useState("");
+const Filter = () => {
+  const filter = useSelector((state) => state.phonebook.filter);
 
-  const handleInputChange = ({ value }) => {
-    setFilter(value);
+  const dispatch = useDispatch();
+
+  const handleInputChange = (event) => {
+    return dispatch(onChangeFilter(event.target.value));
   };
-
-  const filterInputHandler = (event) => {
-    handleInputChange(event.target);
-    onFilter(event.target.value);
-  };
-
   return (
     <div>
       <input
@@ -20,14 +16,10 @@ const Filter = ({ onFilter }) => {
         placeholder="search contact"
         name="filter"
         value={filter}
-        onChange={filterInputHandler}
+        onChange={handleInputChange}
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  onFilter: PropTypes.func.isRequired,
 };
 
 export default Filter;

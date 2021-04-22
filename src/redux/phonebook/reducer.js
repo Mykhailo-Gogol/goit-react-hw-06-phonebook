@@ -1,21 +1,35 @@
-const phonebookState = { items: [], filter: "" };
+import { combineReducers } from "redux";
+import data from "../../data/contacts.json";
+import types from "./types";
 
-export const phonebook = (state = phonebookState, { type, payload }) => {
+const phonebookState = { items: [...data], filter: "" };
+
+const contacts = (state = phonebookState.items, { type, payload }) => {
   switch (type) {
-    case "counter/add_contact":
+    case types.ADD_CONTACT:
       return {
         ...state,
+        payload,
       };
-    case "counter/remove_contact":
-      return {
-        ...state,
-      };
-    case "counter/filter_contact":
-      return {
-        ...state,
-      };
+    case types.REMOVE_CONTACT:
+      return [...state].filter(({ id }) => id !== payload.id);
 
     default:
       return state;
   }
 };
+
+const filter = (state = phonebookState.filter, { type, payload }) => {
+  switch (type) {
+    case types.FILTER_CONTACT:
+      return payload;
+
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  contacts,
+  filter,
+});
